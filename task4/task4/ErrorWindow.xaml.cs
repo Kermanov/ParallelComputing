@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace task3
+namespace task4
 {
     /// <summary>
     /// Interaction logic for ErrorWindow.xaml

@@ -6,6 +6,7 @@
 
 #include "Matrix.h"
 #include "Matrix.cpp"
+#include "ConsoleApp.h"
 
 using namespace std;
 
@@ -54,46 +55,57 @@ void calc(Matrix<float>& matrix, size_t nThreads)
 	}
 }
 
-void generateMatrix(Matrix<float>& matrix)
+void runTask()
 {
-	for (size_t i = 0; i < matrix.cols(); ++i)
+	cout << "Enter number of vertices: ";
+	size_t nVertices;
+	cin >> nVertices;
+
+	cout << "Enter filename: ";
+	string filename;
+	cin >> filename;
+
+	cout << "Matrix reading..." << endl;
+	Matrix<float> matrix(nVertices);
+	ifstream fin(filename);
+	fin >> matrix;
+	fin.close();
+	cout << "Done." << endl;
+
+	while (true)
 	{
-		for (size_t j = 0; j < matrix.rows(); ++j)
+		cout << "\nEnter number of threads: ";
+		size_t nThreads;
+		cin >> nThreads;
+
+		if (nThreads == 0)
 		{
-			if (i != j)
-			{
-				matrix.at(i, j) = 1 + (rand() % 20);
-			}
-			else
-			{
-				matrix.at(i, j) = 0;
-			}
+			break;
 		}
+
+		size_t startTime = clock();
+		calc(matrix, nThreads);
+		size_t finishTime = clock();
+
+		cout << "Time: " << (finishTime - startTime) / 1000. << "s" << endl;
 	}
+	
+	cout << "Saving result..." << endl;
+	ofstream fout(filename.substr(0, filename.length() - 3) + "_result.txt");
+	fout << matrix;
+	fout.close();
+	cout << "Done." << endl;
 }
 
 int main()
 {
-	size_t size = 1000;
-	Matrix<float> matrix(size);
+	vector<Function> funcs =
+	{
+		Function("run", "run task", runTask)
+	};
 
-	generateMatrix(matrix);
-
-	/*ifstream file("matrix.txt");
-	file >> matrix;
-	file.close();*/
-
-	size_t nThreads = 2;
-
-	size_t startTime = clock();
-	calc(matrix, nThreads);
-	size_t finishTime = clock();
-
-	cout << (finishTime - startTime) / 1000. << endl;
-
-	/*ofstream fout("result.txt");
-	fout << matrix;
-	fout.close();*/
+	ConsoleApp app("Task 5", funcs);
+	app.run();
 
 	return 0;
 }

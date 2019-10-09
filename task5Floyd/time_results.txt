@@ -1,0 +1,9 @@
+2000 vertices:
+	threads: 1; time: 41.376s
+	threads: 2; time: 22.768s
+	threads: 3; time: 23.378s
+	threads: 4; time: 19.922s
+	threads: 5; time: 23.576s
+	threads: 6; time: 21.985s
+	threads: 10; time: 21.492s
+	threads: 20; time: 21.794s

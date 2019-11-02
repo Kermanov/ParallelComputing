@@ -17,7 +17,7 @@ int main()
 	Matrix<float> result(nVertices);
 	
 	PrimaAlgorithm alg(graph, result);
-	alg.run();
+	alg.runMultiThread(5);
 
 	ofstream fileOutput("result.txt");
 	fileOutput << result;
